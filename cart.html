@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Your Cart | NEON AUDIO</title>
+  <meta name="description" content="Review your future gear." />
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <canvas id="bg-canvas"></canvas>
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header glass-panel" role="banner">
+    <div class="container header-inner">
+      <a class="brand" href="index.html" aria-label="E-Store home">
+        <i class="fas fa-bolt brand-icon"></i>
+        <span class="brand-name">NEON<span class="highlight">AUDIO</span></span>
+      </a>
+
+      <nav class="main-nav" role="navigation">
+        <ul class="nav-list">
+          <li><a href="index.html" class="nav-link">Shop</a></li>
+          <li><a href="#about" class="nav-link">About</a></li>
+          <li><a href="#contact" class="nav-link">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <a href="index.html" class="btn btn-outline glow-effect" style="padding: 0.5rem 1rem;">
+          <i class="fas fa-arrow-left"></i> Continue Shopping
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="container" style="padding: 4rem 1.5rem;">
+    
+    <div class="glass-panel" style="padding: 2rem; border-radius: 20px;">
+      <h1 class="gradient-text" style="font-size: 2.5rem; margin-bottom: 0.5rem;">Mission Manifest</h1>
+      <p style="color: var(--text-muted); margin-bottom: 2rem;">Review your gear before deployment.</p>
+
+      <div class="cart-layout" style="display: grid; grid-template-columns: 1fr 340px; gap: 2rem;">
+        
+        <section aria-labelledby="cart-heading">
+          <div id="full-cart-items" class="cart-items-list">
+            <div class="loading-spinner">Decrypting cart data...</div>
+          </div>
+        </section>
+
+        <aside>
+          <div class="glass-panel" style="padding: 1.5rem; border-radius: 16px; background: rgba(30, 41, 59, 0.4);">
+            <h3 style="margin-bottom: 1rem; color: white;">Summary</h3>
+            
+            <div style="display:flex; justify-content:space-between; margin-bottom:0.8rem; color: var(--text-muted);">
+              <span>Subtotal</span>
+              <strong id="page-subtotal" style="color: white;">$0.00</strong>
+            </div>
+            
+            <div style="display:flex; justify-content:space-between; margin-bottom:1.5rem; color: var(--text-muted);">
+              <span>Shipping</span>
+              <strong id="page-shipping" style="color: var(--neon-blue);">Free</strong>
+            </div>
+
+            <div style="height:1px; background:var(--glass-border); margin-bottom:1.5rem;"></div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 1.5rem;">
+              <strong style="font-size: 1.1rem;">Total</strong>
+              <strong id="page-total" style="font-size:1.5rem; color: var(--neon-purple);">$0.00</strong>
+            </div>
+
+            <button id="checkout-btn" class="btn btn-primary glow-effect" style="width: 100%;">Initialize Checkout</button>
+            <button id="clear-cart-page" class="btn btn-outline" style="width: 100%; margin-top: 1rem;">Clear Manifest</button>
+          </div>
+        </aside>
+
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="site-footer" style="margin-top: auto;">
+    <div class="container footer-bottom">
+      <p>&copy; <span id="year">2025</span> NEON AUDIO. System Online.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+
+  <script>
+    (() => {
+      // 1. Read the same data source as script.js
+      const cart = JSON.parse(localStorage.getItem('future_cart')) || [];
+      const container = document.getElementById('full-cart-items');
+      const subtotalEl = document.getElementById('page-subtotal');
+      const totalEl = document.getElementById('page-total');
+      
+      // 2. Render Function
+      function renderPageCart() {
+        container.innerHTML = '';
+        let total = 0;
+
+        if (cart.length === 0) {
+          container.innerHTML = '<p style="padding: 2rem; text-align: center; color: var(--text-muted);">Manifest is empty. <a href="index.html" style="color:var(--neon-blue)">Acquire gear.</a></p>';
+          updateTotals(0);
+          return;
+        }
+
+        cart.forEach((item, index) => {
+          total += item.price;
+          
+          const el = document.createElement('div');
+          el.style.cssText = `
+            display: flex; 
+            gap: 1.5rem; 
+            padding: 1.5rem; 
+            margin-bottom: 1rem; 
+            background: rgba(255,255,255,0.03); 
+            border-radius: 12px; 
+            align-items: center;
+          `;
+          
+          el.innerHTML = `
+            <img src="${item.image}" alt="${item.name}" style="width: 80px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.3);">
+            <div style="flex: 1;">
+              <h3 style="margin: 0 0 0.5rem 0; font-size: 1.2rem;">${item.name}</h3>
+              <p style="margin: 0; color: var(--text-muted); font-size: 0.9rem;">${item.desc || 'Premium Audio Gear'}</p>
+            </div>
+            <div style="text-align: right;">
+              <div style="font-size: 1.2rem; font-weight: 700; color: var(--neon-blue); margin-bottom: 0.5rem;">$${item.price.toFixed(2)}</div>
+              <button class="btn-remove" style="background: none; border: none; color: var(--text-muted); cursor: pointer; text-decoration: underline; font-size: 0.9rem;">Remove</button>
+            </div>
+          `;
+
+          // Remove functionality
+          el.querySelector('.btn-remove').addEventListener('click', () => {
+            cart.splice(index, 1);
+            localStorage.setItem('future_cart', JSON.stringify(cart));
+            renderPageCart(); // Re-render this page
+            // Note: The header badge won't update until refresh unless we invoke script.js logic, 
+            // but this is sufficient for the demo.
+          });
+
+          container.appendChild(el);
+        });
+
+        updateTotals(total);
+      }
+
+      function updateTotals(amount) {
+        subtotalEl.textContent = `$${amount.toFixed(2)}`;
+        totalEl.textContent = `$${amount.toFixed(2)}`;
+      }
+
+      // 3. Clear Cart Button
+      document.getElementById('clear-cart-page').addEventListener('click', () => {
+        if(confirm('Purge all items from manifest?')) {
+          localStorage.removeItem('future_cart');
+          location.reload();
+        }
+      });
+
+      // Initial Render
+      renderPageCart();
+    })();
+  </script>
+
+</body>
+</html>

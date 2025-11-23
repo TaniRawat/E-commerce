@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Secure Checkout | NEON AUDIO</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <canvas id="bg-canvas"></canvas>
+
+  <div class="checkout-wrapper">
+    <div class="checkout-main glass-panel">
+      <div class="checkout-header">
+        <a href="cart.html" class="back-link"><i class="fas fa-arrow-left"></i> Abort</a>
+        <h2><i class="fas fa-lock text-neon"></i> Secure Channel</h2>
+      </div>
+
+      <div class="progress-bar">
+        <div class="step active" data-step="1">1. Shipping</div>
+        <div class="line"></div>
+        <div class="step" data-step="2">2. Payment</div>
+        <div class="line"></div>
+        <div class="step" data-step="3">3. Confirm</div>
+      </div>
+
+      <form id="checkout-form">
+        
+        <div class="form-step active" id="step-1">
+          <h3>Coordinates</h3>
+          <div class="input-grid">
+            <div class="input-group">
+              <label>Full Name</label>
+              <input type="text" class="glass-input" required placeholder="Commander Shepard">
+            </div>
+            <div class="input-group">
+              <label>Email</label>
+              <input type="email" class="glass-input" required placeholder="user@fleet.com">
+            </div>
+          </div>
+          <div class="input-group">
+            <label>Address Line 1</label>
+            <input type="text" class="glass-input" required placeholder="Sector 7G, Citadel">
+          </div>
+          <div class="input-grid">
+            <div class="input-group">
+              <label>City</label>
+              <input type="text" class="glass-input" required>
+            </div>
+            <div class="input-group">
+              <label>Zip Code</label>
+              <input type="text" class="glass-input" required>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button type="button" class="btn btn-primary glow-effect next-btn">Proceed to Payment</button>
+          </div>
+        </div>
+
+        <div class="form-step" id="step-2">
+          <h3>Transaction Protocol</h3>
+          
+          <div class="credit-card-mockup glass-panel">
+            <div class="chip"></div>
+            <div class="card-number">•••• •••• •••• ••••</div>
+            <div class="card-meta">
+              <span>EXP: MM/YY</span>
+              <span>CVC: •••</span>
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label>Card Number</label>
+            <input type="text" class="glass-input" placeholder="0000 0000 0000 0000" maxlength="19">
+          </div>
+          <div class="input-grid">
+            <div class="input-group">
+              <label>Expiry</label>
+              <input type="text" class="glass-input" placeholder="MM/YY" maxlength="5">
+            </div>
+            <div class="input-group">
+              <label>CVC</label>
+              <input type="text" class="glass-input" placeholder="123" maxlength="3">
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn btn-outline prev-btn">Back</button>
+            <button type="submit" class="btn btn-primary glow-effect">Authorize Payment</button>
+          </div>
+        </div>
+
+      </form>
+
+      <div id="success-screen" class="success-screen" hidden>
+        <div class="success-icon"><i class="fas fa-check"></i></div>
+        <h2>Order Confirmed</h2>
+        <p>Your gear is being teleported to your location.</p>
+        <p class="order-id">ID: <span class="text-neon">#NEO-9928</span></p>
+        <a href="index.html" class="btn btn-primary glow-effect">Return to Base</a>
+      </div>
+
+    </div>
+
+    <div class="checkout-sidebar glass-panel">
+      <h3>Manifest</h3>
+      <div id="checkout-items">
+        <div class="loading-spinner">Loading data...</div>
+      </div>
+      <div class="checkout-total">
+        <span>Total Due:</span>
+        <span id="checkout-total-price" class="text-neon">$0.00</span>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    // --- CHECKOUT SPECIFIC LOGIC ---
+    (() => {
+      // 1. Load Cart for Summary
+      const cart = JSON.parse(localStorage.getItem('future_cart')) || [];
+      const container = document.getElementById('checkout-items');
+      const totalEl = document.getElementById('checkout-total-price');
+      
+      let total = 0;
+      container.innerHTML = '';
+      
+      if(cart.length === 0) {
+        container.innerHTML = '<p>No items.</p>';
+        document.querySelector('.next-btn').disabled = true;
+      } else {
+        cart.forEach(item => {
+          total += item.price;
+          const div = document.createElement('div');
+          div.className = 'summary-item';
+          div.innerHTML = `<span>${item.name}</span> <span>$${item.price.toFixed(2)}</span>`;
+          container.appendChild(div);
+        });
+      }
+      totalEl.textContent = `$${total.toFixed(2)}`;
+
+      // 2. Multi-step Form Logic
+      const step1 = document.getElementById('step-1');
+      const step2 = document.getElementById('step-2');
+      const nextBtn = document.querySelector('.next-btn');
+      const prevBtn = document.querySelector('.prev-btn');
+      const form = document.getElementById('checkout-form');
+      const successScreen = document.getElementById('success-screen');
+      const steps = document.querySelectorAll('.progress-bar .step');
+
+      nextBtn.addEventListener('click', () => {
+        // Simple validation check
+        const inputs = step1.querySelectorAll('input');
+        let valid = true;
+        inputs.forEach(i => { if(!i.value) valid = false; });
+        
+        if(valid) {
+          step1.classList.remove('active');
+          step2.classList.add('active');
+          steps[1].classList.add('active');
+        } else {
+          alert('Please complete all coordinates.');
+        }
+      });
+
+      prevBtn.addEventListener('click', () => {
+        step2.classList.remove('active');
+        step1.classList.add('active');
+        steps[1].classList.remove('active');
+      });
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        // Fake processing
+        const btn = form.querySelector('button[type="submit"]');
+        btn.textContent = 'Processing...';
+        
+        setTimeout(() => {
+          form.style.display = 'none';
+          document.querySelector('.checkout-sidebar').style.display = 'none';
+          document.querySelector('.checkout-main').style.width = '100%';
+          document.querySelector('.checkout-main').style.textAlign = 'center';
+          successScreen.hidden = false;
+          steps[2].classList.add('active');
+          
+          // Clear Cart
+          localStorage.removeItem('future_cart');
+        }, 2000);
+      });
+
+    })();
+  </script>
+</body>
+</html>

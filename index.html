@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <title>NEON AUDIO | Future Sound Systems</title>
+  <meta name="description" content="Experience zero-latency neural audio gear. Shop the next generation of headphones, earbuds, and speakers.">
+  <meta name="keywords" content="audio, headphones, cyberpunk, tech, ecommerce, neon">
+  <meta name="author" content="Neon Audio Systems">
+
+  <meta property="og:title" content="NEON AUDIO | Future Sound Systems">
+  <meta property="og:description" content="High-fidelity gear for the next generation. Initialize your uplink today.">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1614726365723-49cfae96865d?q=80&w=1200"> 
+  <meta property="og:url" content="https://neonaudio.com">
+  <meta property="og:type" content="website">
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <canvas id="bg-canvas"></canvas>
+
+  <div class="content-wrapper">
+    
+    <header class="site-header glass-panel" role="banner">
+      <div class="container header-inner">
+        <a class="brand" href="index.html" aria-label="E-Store home">
+          <i class="fas fa-bolt brand-icon"></i>
+          <span class="brand-name">NEON<span class="highlight">AUDIO</span></span>
+        </a>
+
+        <nav class="main-nav" role="navigation">
+          <ul class="nav-list">
+            <li><a href="#products" class="nav-link">Shop</a></li>
+            <li><a href="#about" class="nav-link">About</a></li>
+            <li><a href="#contact" class="nav-link">Contact</a></li>
+          </ul>
+        </nav>
+
+        <div class="header-actions">
+           <div class="search-box glass-input" role="search">
+            <input id="search-input" type="search" placeholder="Search gear..." aria-label="Search products">
+            <button id="search-btn" aria-label="Search"><i class="fas fa-search"></i></button>
+          </div>
+
+          <button id="login-trigger" class="btn btn-ghost glow-effect" style="margin-right:0.5rem;">Login</button>
+          
+          <a href="cart.html" class="icon-btn" aria-label="Open Full Cart Page" title="Go to Cart Page" style="color: white; margin-right: 0.5rem; text-decoration: none;">
+            <i class="fas fa-external-link-alt"></i>
+          </a>
+
+          <button id="cart-button" class="cart-btn" aria-label="View Cart">
+            <i class="fas fa-shopping-bag"></i>
+            <span id="cart-count" class="cart-count">0</span>
+          </button>
+
+          <button id="menu-toggle" class="icon-btn mobile-trigger" aria-label="Open Menu">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main id="main" class="container main-content">
+      
+      <section class="hero glass-panel" aria-label="Featured audio">
+        <div class="hero-content">
+          <h1>Sound from the <br><span class="gradient-text">Future</span></h1>
+          <p class="lead">High-fidelity audio gear curated for the next generation of creators.</p>
+          <a class="btn btn-primary glow-effect" href="#products">Explore Collection</a>
+        </div>
+      </section>
+
+      <section class="controls glass-panel" aria-label="Shop controls">
+        <div class="controls-header">
+          <h2 class="section-title">Latest Drops</h2>
+          <!-- <div class="filter-chips" id="category-filters">
+            <button class="chip active" data-category="all">All Systems</button>
+            <button class="chip" data-category="Headphones">Headphones</button>
+            <button class="chip" data-category="Earbuds">Earbuds</button>
+            <button class="chip" data-category="Speakers">Speakers</button>
+          </div>
+        </div> -->
+
+        <div class="filter-group">
+          <select id="sort-select" class="glass-select" aria-label="Sort products">
+            <option value="popular">Trending</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+          </select>
+        </div>
+      </section>
+
+      <section id="products" class="product-grid" aria-live="polite">
+        <div class="loading-spinner">Loading future gear...</div>
+      </section>
+
+      <section id="about" class="about-section">
+        <div class="glass-panel" style="padding: 3rem; border-radius: 20px; text-align: center; margin-bottom: 3rem;">
+          <h2 class="section-title" style="margin-bottom: 2rem;">Why <span class="text-neon">NEON</span>AUDIO?</h2>
+          
+          <div class="features-grid">
+            <div class="feature-card">
+              <div class="feature-icon"><i class="fas fa-microchip"></i></div>
+              <h3>Neural Tech</h3>
+              <p>Our audio drivers interface directly with your auditory cortex for zero-latency immersion.</p>
+            </div>
+            
+            <div class="feature-card">
+              <div class="feature-icon"><i class="fas fa-layer-group"></i></div>
+              <h3>Graphene Build</h3>
+              <p>Ultra-lightweight materials sourced from off-world mining colonies.</p>
+            </div>
+
+            <div class="feature-card">
+              <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
+              <h3>Lifetime Uplink</h3>
+              <p>Every device comes with a permanent connection to our high-fidelity cloud network.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" class="contact-section">
+        <div class="glass-panel" style="padding: 3rem; border-radius: 20px; max-width: 800px; margin: 0 auto;">
+          <div style="text-align: center; margin-bottom: 2rem;">
+            <h2 class="section-title">Establish <span class="text-neon">Uplink</span></h2>
+            <p style="color: var(--text-muted);">Send a secure transmission to our support fleet.</p>
+          </div>
+
+          <form id="contact-form" class="contact-form">
+            <div class="input-grid">
+              <div class="input-group">
+                <label>Callsign (Name)</label>
+                <input type="text" class="glass-input" placeholder="Pilot Name">
+              </div>
+              <div class="input-group">
+                <label>Frequency (Email)</label>
+                <input type="email" class="glass-input" placeholder="pilot@ship.com">
+              </div>
+            </div>
+            
+            <div class="input-group">
+              <label>Transmission Data (Message)</label>
+              <textarea class="glass-input" rows="5" placeholder="Describe your inquiry..."></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary glow-effect full-width">Transmit Signal</button>
+          </form>
+        </div>
+      </section>
+
+    </main>
+
+    <aside id="cart-panel" class="cart-panel glass-panel" aria-hidden="true">
+      <div class="cart-header">
+        <h3>Your Cart</h3>
+        <button id="close-cart" class="icon-btn"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="cart-body" id="cart-items">
+        <p class="cart-empty">Cart is empty.</p>
+      </div>
+      <div class="cart-footer">
+        <div class="total-row">
+          <span>Total:</span>
+          <span id="cart-total">$0.00</span>
+        </div>
+        <button id="checkout-btn" class="btn btn-primary glow-effect">Checkout</button>
+      </div>
+    </aside>
+
+  </div>
+
+  <footer class="site-footer" role="contentinfo">
+    <div class="container footer-grid">
+      <div>
+        <h4>NEON AUDIO</h4>
+        <p>Your daily dose of audio excellence.</p>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul class="footer-links">
+          <li><a href="#">About</a></li>
+          <li><a href="#">Shipping</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Follow</h4>
+        <div class="social">
+          <a aria-label="Facebook" href="#"><i class="fab fa-facebook"></i></a>
+          <a aria-label="Instagram" href="#"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom container">
+      <p>&copy; <span id="year">2025</span> E-Store. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <template id="product-template">
+    <article class="product-card glass-card" tabindex="0">
+      <div class="image-wrapper">
+        <img src="" alt="" class="product-image">
+      </div>
+      <div class="card-content">
+        <h3 class="product-title"></h3>
+        <p class="product-desc"></p>
+        <div class="meta-row">
+          <span class="price"></span>
+          <div class="rating"></div>
+        </div>
+        <button class="btn btn-outline add-btn">Add to Cart</button>
+      </div>
+    </article>
+  </template>
+
+  <div id="auth-modal" class="auth-modal glass-panel" aria-hidden="true" hidden>
+    <div class="auth-container">
+      <button id="close-auth" class="icon-btn close-auth"><i class="fas fa-times"></i></button>
+      
+      <div class="auth-header">
+        <h2>Identify</h2>
+        <p>Enter credentials to access secured features.</p>
+      </div>
+
+      <form id="login-form">
+        <div class="input-group">
+          <i class="fas fa-user-astronaut input-icon"></i>
+          <input type="email" id="user-email" class="glass-input" placeholder="User ID (Email)" required>
+        </div>
+        
+        <div class="input-group">
+          <i class="fas fa-key input-icon"></i>
+          <input type="password" id="user-pass" class="glass-input" placeholder="Access Code" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary glow-effect full-width">Initialize Session</button>
+      </form>
+
+      <div class="auth-footer">
+        <p>New user? <a href="#" class="text-neon">Create Uplink</a></p>
+      </div>
+    </div>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="script.js" defer></script>
+  <div id="modal-root" style="display:none;"></div>
+</body>
+</html>
